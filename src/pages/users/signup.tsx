@@ -1,4 +1,4 @@
-import Form from "@/components/users/SignupForm";
+import { useNavigate } from "react-router-dom";
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -7,6 +7,7 @@ import {
 import { FirebaseError } from "firebase/app";
 import { app, db } from "@/firebaseApp";
 import { collection, doc, setDoc } from "firebase/firestore";
+import Form from "@/components/users/SignupForm";
 
 interface FormData {
   email: string;
@@ -17,6 +18,8 @@ interface FormData {
 }
 
 const SignupPage = () => {
+  const navigate = useNavigate();
+
   const onSubmit = async (formData: FormData) => {
     console.log("전달받은 form data", formData);
     try {
@@ -41,6 +44,9 @@ const SignupPage = () => {
       };
 
       await setDoc(doc(collection(db, "User"), user.uid), newUser);
+
+      //회원상태에 따라 라우팅처리 필요
+      navigate("/users/login");
     } catch (error) {
       if (error instanceof FirebaseError) {
         // FirebaseError에 대한 처리
