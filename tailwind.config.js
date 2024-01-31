@@ -20,6 +20,9 @@ export default {
       },
     },
     extend: {
+      colors: {
+        "main-color": "#7FA7E8",
+      },
       keyframes: {
         "accordion-down": {
           from: { height: "0" },
