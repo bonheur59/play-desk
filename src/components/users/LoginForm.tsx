@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 interface FormData {
   email: string;
@@ -41,23 +42,32 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
 
   return (
     <>
-      <main className="flex flex-col items-center p-24">
+      <main className="flex items-center justify-center h-screen bg-gray-100 ">
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(handleSubmit)}
-            className="flex flex-col gap-4"
+            className="flex flex-col w-96 p-6 shadow-sm items-center justify-center gap-4 bg-white rounded-md"
           >
+            <div>
+              이미지 자리 입니다.
+              <img />
+            </div>
+            {/* <div className="space-beetween">
+              <button>구매자</button>
+              <button>판매자</button>
+            </div> */}
             <FormField
               control={form.control}
               name="email"
               render={({ field }) => {
                 return (
-                  <FormItem>
+                  <FormItem className="w-full ">
                     <FormLabel>이메일</FormLabel>
                     <FormControl>
                       <Input
                         type="email"
-                        placeholder="이메일을 입력하세요"
+                        className="bg-gray-50 text-gray-500 outline-none"
+                        // placeholder="이메일을 입력하세요"
                         {...field}
                       />
                     </FormControl>
@@ -71,11 +81,12 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
               name="password"
               render={({ field }) => {
                 return (
-                  <FormItem>
+                  <FormItem className="w-full ">
                     <FormLabel>비밀번호</FormLabel>
                     <FormControl>
                       <Input
                         type="password"
+                        className="bg-gray-50 text-gray-500 outline-none"
                         placeholder="비밀번호를 입력하세요"
                         {...field}
                       />
@@ -85,9 +96,16 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
                 );
               }}
             />
-            <Button type="submit" className="w-[100px]">
+
+            <Button type="submit" className="w-full mt-5 bg-main-color">
               로그인
             </Button>
+            <div className="text-sm">
+              <span className="mr-3 text-gray-400">회원이 아니신가요?</span>
+              <Link to="/users/signup" className="underline">
+                회원가입
+              </Link>
+            </div>
           </form>
         </Form>
       </main>
