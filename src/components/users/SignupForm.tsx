@@ -75,23 +75,28 @@ const SignupForm: React.FC<SignupFormProps> = ({ onSubmit }) => {
 
   return (
     <>
-      <main className="flex flex-col items-center p-24">
+      <main className="flex items-center justify-center h-screen bg-gray-100 ">
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(handleSubmit)}
-            className="flex flex-col gap-4"
+            className="flex flex-col w-96 p-6 shadow-sm items-center justify-center gap-4 bg-white rounded-md"
           >
+            <div>
+              이미지 자리 입니다.
+              <img />
+            </div>
             <FormField
               control={form.control}
               name="email"
               render={({ field }) => {
                 return (
-                  <FormItem>
+                  <FormItem className="w-full">
                     <FormLabel>이메일</FormLabel>
                     <FormControl>
                       <Input
                         type="email"
-                        placeholder="이메일을 입력하세요"
+                        className=" bg-gray-50 text-gray-500 outline-none"
+                        // placeholder="이메일을 입력하세요"
                         {...field}
                       />
                     </FormControl>
@@ -105,12 +110,13 @@ const SignupForm: React.FC<SignupFormProps> = ({ onSubmit }) => {
               name="password"
               render={({ field }) => {
                 return (
-                  <FormItem>
+                  <FormItem className="w-full">
                     <FormLabel>비밀번호</FormLabel>
                     <FormControl>
                       <Input
                         type="password"
-                        placeholder="비밀번호를 입력하세요"
+                        className=" bg-gray-50 text-gray-500 outline-none"
+                        // placeholder="비밀번호를 입력하세요"
                         {...field}
                       />
                     </FormControl>
@@ -124,12 +130,13 @@ const SignupForm: React.FC<SignupFormProps> = ({ onSubmit }) => {
               name="passwordConfirm"
               render={({ field }) => {
                 return (
-                  <FormItem>
+                  <FormItem className="w-full">
                     <FormLabel>비밀번호 확인</FormLabel>
                     <FormControl>
                       <Input
                         type="password"
-                        placeholder="비밀번호를 한번 더 입력하세요"
+                        className=" bg-gray-50 text-gray-500 outline-none"
+                        // placeholder="비밀번호를 한번 더 입력하세요"
                         {...field}
                       />
                     </FormControl>
@@ -143,12 +150,13 @@ const SignupForm: React.FC<SignupFormProps> = ({ onSubmit }) => {
               name="nickName"
               render={({ field }) => {
                 return (
-                  <FormItem>
+                  <FormItem className="w-full">
                     <FormLabel>닉네임</FormLabel>
                     <FormControl>
                       <Input
                         type="nickName"
-                        placeholder="닉네임을 입력하세요"
+                        className=" bg-gray-50 text-gray-500 outline-none"
+                        // placeholder="닉네임을 입력하세요"
                         {...field}
                       />
                     </FormControl>
@@ -162,7 +170,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ onSubmit }) => {
               name="userType"
               render={({ field }) => {
                 return (
-                  <FormItem>
+                  <FormItem className="w-full">
                     <FormLabel>회원유형</FormLabel>
                     <Select onValueChange={field.onChange}>
                       <FormControl>
@@ -180,7 +188,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ onSubmit }) => {
                 );
               }}
             />
-            <Button type="submit" className="w-[100px]">
+            <Button type="submit" className="w-full mt-5 bg-main-color">
               회원가입
             </Button>
           </form>
