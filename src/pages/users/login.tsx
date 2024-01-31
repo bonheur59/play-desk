@@ -21,8 +21,7 @@ const LoginPage = () => {
       const auth = getAuth(app);
       await signInWithEmailAndPassword(auth, email, password);
       alert("로그인에 성공했습니다.");
-      navigate("/");
-      
+      navigate("/seller/list");
     } catch (error) {
       if (error instanceof FirebaseError) {
         // FirebaseError에 대한 처리
