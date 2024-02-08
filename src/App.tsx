@@ -5,14 +5,11 @@ import "./App.css";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { app } from "./firebaseApp";
 
-import { QueryClientProvider } from "react-query";
-import { getClient } from "./queryClient";
-import { ReactQueryDevtools } from "react-query/devtools";
+
 import AuthContext from "./context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 function App() {
-  const queryClient = getClient();
   const auth = getAuth(app);
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -23,6 +20,8 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(
     !!auth?.currentUser
   );
+
+  console.log(user?.isSeller)
 
   useEffect(() => {
     onAuthStateChanged(auth, (userState) => {
@@ -42,10 +41,10 @@ function App() {
 
   return (
     <>
-      <QueryClientProvider client={queryClient}>
+
         {init ? <Router isAuthenticated={isAuthenticated} /> : "loading"}
-        <ReactQueryDevtools />
-      </QueryClientProvider>
+   
+
     </>
   );
 }
