@@ -2,12 +2,13 @@ import logo from "@/assets/logo.png";
 import AuthContext from "@/context/AuthContext";
 import { app } from "@/firebaseApp";
 import { getAuth, signOut } from "firebase/auth";
-import { useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
+  const [menu, setMenu] = useState("furniture");
 
   const onSignOut = async () => {
     try {
@@ -23,21 +24,55 @@ const Navbar = () => {
     navigate("/users/login");
   };
 
+  const handleCategory = (category) => {
+    setMenu(category);
+    navigate(`/shop/category/${category}`);
+  };
+
+  const handleCart = () => {
+    navigate("/shop/cart");
+  };
+
   return (
     <div className="flex justify-around  shadow-slate-100 p-6 px-10">
       <div className="flex items-center gap-2.5">
-        <img src={logo} className="w-[260px]" />
+        <Link to={"/shop"}>
+          <img src={logo} className="w-[260px]" />
+        </Link>
       </div>
       <ul className="flex items-center list-none gap-[50px] text-[#626262] text-xl font-medium">
-        <li className="flex flex-col items-center justify-center gap-1 cursor-pointer">
+        <li
+          onClick={() => handleCategory("furniture")}
+          className="flex flex-col items-center justify-center gap-1 cursor-pointer"
+        >
           가구
-          <hr className="w-5/6 h-1 rounded-sm bg-sky-500" />
+          {menu === "furniture" ? (
+            <hr className="w-5/6 h-1 rounded-sm bg-sky-500" />
+          ) : (
+            <></>
+          )}
         </li>
-        <li className="flex flex-col items-center justify-center gap-1 cursor-pointer">
+        <li
+          onClick={() => handleCategory("electric")}
+          className="flex flex-col items-center justify-center gap-1 cursor-pointer"
+        >
           전자기기
+          {menu === "electric" ? (
+            <hr className="w-5/6 h-1 rounded-sm bg-sky-500" />
+          ) : (
+            <></>
+          )}
         </li>
-        <li className="flex flex-col items-center justify-center gap-1 cursor-pointer">
+        <li
+          onClick={() => handleCategory("small-item")}
+          className="flex flex-col items-center justify-center gap-1 cursor-pointer"
+        >
           소품
+          {menu === "small-item" ? (
+            <hr className="w-5/6 h-1 rounded-sm bg-sky-500" />
+          ) : (
+            <></>
+          )}
         </li>
         <li className="flex flex-col items-center justify-center gap-1 cursor-pointer"></li>
       </ul>
@@ -58,7 +93,7 @@ const Navbar = () => {
           </button>
         )}
 
-        <button>
+        <button onClick={handleCart}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
