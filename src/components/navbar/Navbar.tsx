@@ -1,5 +1,6 @@
 import logo from "@/assets/logo.png";
 import AuthContext from "@/context/AuthContext";
+import CartContext from "@/context/CartContext";
 import { app } from "@/firebaseApp";
 import { getAuth, signOut } from "firebase/auth";
 import { useContext, useState } from "react";
@@ -9,6 +10,7 @@ const Navbar = () => {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
   const [menu, setMenu] = useState("furniture");
+  const { getTotalCartItems } = useContext(CartContext);
 
   const onSignOut = async () => {
     try {
@@ -107,6 +109,7 @@ const Navbar = () => {
             />
           </svg>
         </button>
+        <div>{getTotalCartItems()}</div>
       </div>
     </div>
   );

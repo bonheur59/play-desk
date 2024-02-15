@@ -49,7 +49,6 @@ export const AuthContextProvider = ({ children }: AuthProps) => {
     });
   }, [auth]);
 
-
   return (
     <AuthContext.Provider value={{ user: currentUser }}>
       {children}
@@ -58,4 +57,3 @@ export const AuthContextProvider = ({ children }: AuthProps) => {
 };
 
 export default AuthContext;
-
