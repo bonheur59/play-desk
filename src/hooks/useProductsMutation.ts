@@ -17,7 +17,6 @@ import { db, storage } from "../firebaseApp";
 import { v4 as uuidv4 } from "uuid";
 import { useNavigate } from "react-router-dom";
 
-
 export const useProductMutation = () => {
   const navigate = useNavigate();
 
@@ -56,6 +55,18 @@ export const useProductMutation = () => {
 
       // Firestore에 데이터 저장
       const docRef = await addDoc(collection(db, "Product"), newProduct);
+
+      // 새로 생성된 문서의 참조에서 id 가져오기
+      const newId = docRef.id;
+
+      // 필드를 추가할 데이터
+      const additionalData = {
+        id: newId,
+      };
+
+      // 생성된 문서의 참조를 이용하여 필드 추가
+      await updateDoc(doc(db, "Product", newId), additionalData);
+
       return docRef;
     },
     {
@@ -92,7 +103,6 @@ export const useDeleteImageMutation = () => {
 
 //store의 doc을 삭제하는 함수
 export const useDeleteProductMutation = (user) => {
-
   const deleteProductMutation = useMutation(
     (id: string) => {
       return deleteDoc(doc(db, "Product", id));
