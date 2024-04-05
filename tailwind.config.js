@@ -21,7 +21,8 @@ export default {
     },
     extend: {
       colors: {
-        "main-color": "#7FA7E8",
+        "main-color": "#F4517D",
+        "sub-color": "#FF789D",
       },
       keyframes: {
         "accordion-down": {
