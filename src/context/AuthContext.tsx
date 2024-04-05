@@ -25,9 +25,6 @@ export const AuthContextProvider = ({ children }: AuthProps) => {
   useEffect(() => {
     onAuthStateChanged(auth, async (user) => {
       if (user) {
-        //사용자의 기본 정보 가져오기
-
-        //Firestore에서 추가 정보 가져오기
         try {
           const userData = await getUserDataFromFirestore(user.uid);
 
