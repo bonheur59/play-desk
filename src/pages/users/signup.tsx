@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { Input } from "@/components/ui/input";
 import {
@@ -11,6 +12,9 @@ import {
 } from "@/components/ui/select";
 import UserLayout from "@/layout/UserLayout";
 import Button from "@/components/common/Button";
+import { createUser } from "@/service/userService";
+import { useEffect } from "react";
+import SignupForm from "@/components/users/SignupForm";
 
 enum UserTypeEnum {
   buyer = "buyer",
@@ -23,6 +27,7 @@ type FormData = {
   passwordConfirm: string;
   nickName: string;
   userType: UserTypeEnum;
+  shopName: string;
 };
 
 const schema = z
@@ -40,6 +45,7 @@ const schema = z
     passwordConfirm: z.string().min(1, { message: "비밀번호를 확인해주세요" }),
     nickName: z.string().min(2, { message: "닉네임을 2자 이상 입력해주세요" }),
     userType: z.string(),
+    shopName: z.string(),
   })
   .refine((data) => data.password === data.passwordConfirm, {
     message: "비밀번호가 일치하지 않습니다.",
@@ -51,6 +57,8 @@ const SignupPage = () => {
     register,
     handleSubmit,
     formState: { errors },
+    watch,
+    setValue,
   } = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -59,83 +67,43 @@ const SignupPage = () => {
       passwordConfirm: "",
       nickName: "",
       userType: UserTypeEnum.buyer,
+      shopName: "",
     },
   });
 
-  const onSubmit = (data: FormData) => {
+  const navigate = useNavigate();
+
+  // userType 필드를 watch 함수의 인자로 전달하여 userType 값의 변경을 감지함
+  const userType = watch("userType");
+
+  //userType이 바뀔때마다 shopaName의 value를 초기화 해줌
+  useEffect(() => {
+    setValue("shopName", "");
+  }, [userType]);
+
+  const onSubmit = async (data: FormData) => {
     console.log(data);
+    try {
+      const user = await createUser(data);
+      if (user) {
+        alert("회원가입에 성공했습니다.");
+        navigate("/");
+      }
+    } catch (error) {
+      console.error("Failed to create user:", error);
+    }
   };
 
   return (
     <UserLayout>
       <div className="text-center">회원가입</div>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col w-full gap-4"
-      >
-        <div>
-          <label className="text-sm font-medium">이메일</label>
-          <Input
-            type="text"
-            className="bg-gray-50 text-gray-500 outline-none"
-            {...register("email")}
-          />
-          {errors.email && (
-            <p className="text-red-500  text-sm">{errors.email?.message}</p>
-          )}
-        </div>
-        <div>
-          <label className="text-sm font-medium">비밀번호</label>
-          <Input
-            type="password"
-            className="bg-gray-50 text-gray-500 outline-none"
-            {...register("password")}
-          />
-          {errors.password && (
-            <p className=" text-red-500 text-sm">{errors.password?.message}</p>
-          )}
-        </div>
-        <div>
-          <label className="text-sm font-medium">비밀번호 확인</label>
-          <Input
-            type="password"
-            className="bg-gray-50 text-gray-500 outline-none"
-            {...register("passwordConfirm")}
-          />
-          {errors.passwordConfirm && (
-            <p className=" text-red-500  text-sm">
-              {errors.passwordConfirm?.message}
-            </p>
-          )}
-        </div>
-        <div>
-          <label className="text-sm font-medium">닉네임</label>
-          <Input
-            className="bg-gray-50 text-gray-500 outline-none"
-            {...register("nickName")}
-          />
-          {errors.nickName && (
-            <p className=" text-red-500  text-sm">{errors.nickName?.message}</p>
-          )}
-        </div>
-        <div>
-          {" "}
-          <label className="text-sm font-medium">회원 유형</label>
-          <Select>
-            <SelectTrigger>
-              <SelectValue placeholder="구매자" />
-            </SelectTrigger>
-            <SelectContent {...register("userType")}>
-              {" "}
-              <SelectItem value="buyer">구매자</SelectItem>
-              <SelectItem value="seller">판매자</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-        <Button type="submit" size="w-full" color="main" font="medium">
-          버튼
-        </Button>
-      </form>
+      <SignupForm
+        userType={userType}
+        handleSubmit={handleSubmit}
+        onSubmit={onSubmit}
+        register={register}
+        errors={errors}
+      />
     </UserLayout>
   );
 };

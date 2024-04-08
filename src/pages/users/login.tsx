@@ -1,8 +1,10 @@
 import LoginForm from "@/components/users/LoginForm";
 import UserLayout from "@/layout/UserLayout";
+import { loginUser } from "@/service/userService";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 
 type FormData = {
@@ -44,6 +46,7 @@ const schema = (userType: string) => {
 
 const LoginPage = () => {
   const [userType, setUserType] = useState<"buyer" | "seller">("buyer");
+  const navigate = useNavigate();
 
   const handleUserType = (userType: "buyer" | "seller") => {
     setUserType(userType);
@@ -61,8 +64,17 @@ const LoginPage = () => {
       shopName: userType === "seller" ? "" : undefined, // 판매자일 경우에만 shopName을 초기화
     },
   });
-  const onSubmit = (data: FormData) => {
+  const onSubmit = async (data: FormData) => {
     console.log(data);
+    try {
+      const user = await loginUser(data);
+      if (user) {
+        alert("로그인에 성공했습니다.");
+        navigate("/");
+      }
+    } catch (error) {
+      console.error("Failed to login user:", error);
+    }
   };
 
   return (
