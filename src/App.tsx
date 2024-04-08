@@ -11,9 +11,12 @@ import AuthContext from "./context/AuthContext";
 // import { useNavigate } from "react-router-dom";
 
 function App() {
-  const { user } = useContext(AuthContext);
-
-  return <>{<Router user={user} />}</>;
+  return <>{<Router />}</>;
+  // return (
+  //   <>
+  //     <div> 안녕</div>
+  //   </>
+  // );
   // const auth = getAuth(app);
   // const { user } = useContext(AuthContext);
   // const navigate = useNavigate();
@@ -43,11 +46,11 @@ function App() {
   //   });
   // }, [auth]);
 
-  return (
-    <>
-      <Router />
-    </>
-  );
+  // return (
+  //   <>
+  //     <Router />
+  //   </>
+  // );
 }
 
 export default App;
