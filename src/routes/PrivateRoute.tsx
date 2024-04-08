@@ -8,18 +8,14 @@ interface userType {
 }
 
 interface RouterProps {
-  user: userType;
+  condition: boolean | null;
   isSeller?: boolean;
 }
 
-const PrivateRoute = ({ user }: RouterProps) => {
-  console.log("전달받은 user", user);
+const PrivateRoute = ({ condition }: RouterProps) => {
+  console.log("전달받은 user", condition);
 
-  if (!user) {
-    alert("로그인이 필요합니다.");
-  }
-
-  return user ? <Outlet /> : <Navigate replace to="/" />;
+  return condition ? <Outlet /> : <Navigate replace to="/users/login" />;
 };
 
 export default PrivateRoute;
