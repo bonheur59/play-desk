@@ -1,8 +1,7 @@
-import Form from "@/components/seller/Form";
-
+import CreateProductForm from "@/components/seller/new/CreateProductForm";
 
 const ProductNew = () => {
-  return <Form />;
+  return <CreateProductForm />;
 };
 
 export default ProductNew;
