@@ -14,8 +14,8 @@ const DropDown = React.memo(() => {
 
   useEffect(() => {
     // 드롭 다운 외의 영역을 클릭했을 때 드롭 다운을 닫음
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+    const handleClickOutside = (event:MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target )) {
         setIsOpen(false);
       }
     };
