@@ -44,6 +44,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
         <label className="text-sm font-medium">비밀번호</label>
         <Input
           type="password"
+          autoComplete="off"
           className="bg-gray-50 text-gray-500 outline-none"
           {...register("password")}
         />
