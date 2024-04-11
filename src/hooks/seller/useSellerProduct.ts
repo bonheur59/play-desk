@@ -41,7 +41,7 @@ export const useReadProductInfinite = (userId: string | undefined) => {
 
 //상품의 상세 정보를 조회하는 UseQuery
 export const useReadProductDetail = (productId: string) => {
-  return useQuery(["get-product", productId], () =>
+  return useQuery(["get-product-detail", productId], () =>
     fetchProductDataDetail(productId)
   );
 };
