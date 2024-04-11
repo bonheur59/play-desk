@@ -6,14 +6,17 @@ import App from "./App.tsx";
 import "./index.css";
 import { AuthContextProvider } from "./context/AuthContext.tsx";
 // import { CartProvider } from "./context/CartContext.tsx";
-// import { QueryClientProvider } from "react-query";
+import { QueryClientProvider } from "react-query";
 import queryClient from "./queryClient";
-// import { ReactQueryDevtools } from "react-query/devtools";
+import { ReactQueryDevtools } from "react-query/devtools";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <AuthContextProvider>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </AuthContextProvider>
+  <QueryClientProvider client={queryClient}>
+    <ReactQueryDevtools />
+    <AuthContextProvider>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </AuthContextProvider>
+  </QueryClientProvider>
 );
