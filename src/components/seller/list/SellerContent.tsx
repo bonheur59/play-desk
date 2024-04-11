@@ -4,8 +4,8 @@ import { useCallback, useContext, useEffect, useRef } from "react";
 import TableHeader from "./table/TableHeader";
 import { useInfiniteQuery } from "react-query";
 import { fetchProductDataInfinite } from "@/api/productApi";
-import SellerItem from "./SellerItem";
 import queryClient from "@/queryClient";
+import TableItem from "./table/SellerItem";
 
 const SellerContent = () => {
   const { user } = useContext(AuthContext);
@@ -24,7 +24,7 @@ const SellerContent = () => {
   // if (isLoading) return <div>로딩중입니다.</div>;
 
   //무한스크롤 적용 1
-  const { data, isLoading, hasNextPage, fetchNextPage, isFetchingNextPage } =
+  const { data, hasNextPage, fetchNextPage, isFetchingNextPage } =
     useInfiniteQuery(
       ["get-product", user?.uid],
       ({ pageParam }) => fetchProductDataInfinite(user?.uid, pageParam),
@@ -96,7 +96,7 @@ const SellerContent = () => {
           {data?.pages.map((page, pageIndex) =>
             page.data.map((item, itemIndex) => (
               <tr key={pageIndex + "-" + itemIndex}>
-                <SellerItem item={item} handleDelete={handleDelete} />
+                <TableItem item={item} handleDelete={handleDelete} />
               </tr>
             ))
           )}

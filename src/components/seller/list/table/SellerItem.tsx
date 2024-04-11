@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 
 interface FileItem {
@@ -22,7 +21,7 @@ interface SellerItemProps {
   handleDelete: (itemId: string) => void;
 }
 
-const SellerItem = ({ item, handleDelete }: SellerItemProps) => {
+const TableItem = ({ item, handleDelete }: SellerItemProps) => {
   const getCategoryKoreanName = (englishCategory: string) => {
     switch (englishCategory) {
       case "furniture":
@@ -91,4 +90,4 @@ const SellerItem = ({ item, handleDelete }: SellerItemProps) => {
   );
 };
 
-export default SellerItem;
+export default TableItem;
