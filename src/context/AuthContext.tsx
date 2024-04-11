@@ -18,12 +18,14 @@ interface UserData {
 
 interface AuthContextType {
   user: UserData | null;
-  logout: () => Promise<void>; // logout 함수의 타입 추가
+  logout: () => Promise<void>;
+  loading: boolean;
 }
 
 const AuthContext = createContext<AuthContextType>({
   user: null as UserData | null,
   logout: async () => {},
+  loading: true,
 });
 
 export const AuthContextProvider = ({ children }: AuthProps) => {
@@ -51,33 +53,22 @@ export const AuthContextProvider = ({ children }: AuthProps) => {
                 uid: data.uid,
               };
               setCurrentUser(user);
+              setLoading(false); // 사용자 정보가 로드되면 로딩 상태를 false로 설정
             }
           });
-          // const userData = await getUserDataFromFirestore(user.uid);
-          // console.log("유저데이터", userData);
-
-          // if (userData) {
-          //   setCurrentUser({
-          //     email: userData.email,
-          //     nickName: userData.nickName,
-          //     isSeller: userData.isSeller,
-          //     uid: userData.uid,
-          //   });
-          // }
         } catch (error) {
           console.error("에러", error);
+          setLoading(false); // 에러 발생 시에도 로딩 상태를 false로 설정
         }
       } else {
+        setCurrentUser(null);
         setLoading(false);
       }
     });
   }, [auth]);
-  console.log("커런트 유저", currentUser);
-
-
 
   return (
-    <AuthContext.Provider value={{ user: currentUser, logout }}>
+    <AuthContext.Provider value={{ user: currentUser, logout, loading }}>
       {children}
     </AuthContext.Provider>
   );

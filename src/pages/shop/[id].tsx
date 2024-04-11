@@ -1,18 +1,18 @@
-import ProductDetail from "@/components/products/Detail";
-import { db } from "@/firebaseApp";
-import { QueryKeys, fetcher } from "@/queryClient";
-import { Product } from "@/type";
-import { doc, getDoc, getDocs, query, where } from "firebase/firestore";
-import { useQuery } from "react-query";
-import { useParams } from "react-router-dom";
+// import ProductDetail from "@/components/products/Detail";
+// import { db } from "@/firebaseApp";
+// import { QueryKeys, fetcher } from "@/queryClient";
+// import { Product } from "@/type";
+// import { doc, getDoc, getDocs, query, where } from "firebase/firestore";
+// import { useQuery } from "react-query";
+// import { useParams } from "react-router-dom";
 
-const fetchProducts = async (id: string) => {
-  const productsRef = doc(db, "Product", id);
-  const productQuery = query(productsRef);
-  const querySnapshot = await getDoc(productQuery);
+// const fetchProducts = async (id: string) => {
+//   const productsRef = doc(db, "Product", id);
+//   const productQuery = query(productsRef);
+//   const querySnapshot = await getDoc(productQuery);
 
-  return querySnapshot.data();
-};
+//   return querySnapshot.data();
+// };
 
 // const fetchRecommendedProducts = async (category: string) => {
 //   try {
@@ -42,15 +42,15 @@ const fetchProducts = async (id: string) => {
 // };
 
 const ProductDetailPage = () => {
-  const { id } = useParams();
+  // const { id } = useParams();
 
-  const { isLoading, data, error } = useQuery(
-    ["get-product", id],
-    () => fetchProducts(id),
-    {
-      enabled: !!id,
-    }
-  );
+  // const { isLoading, data, error } = useQuery(
+  //   ["get-product", id],
+  //   () => fetchProducts(id),
+  //   {
+  //     enabled: !!id,
+  //   }
+  // );
 
   // const { data: recommendedProducts } = useQuery(
   //   ["get-recommended-products", data?.category, id],
@@ -59,15 +59,20 @@ const ProductDetailPage = () => {
   //   }
   // );
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+  // if (isLoading) {
+  //   return <div>Loading...</div>;
+  // }
 
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  }
+  // if (error) {
+  //   return <div>Error: {error.message}</div>;
+  // }
 
-  return <ProductDetail item={data} paramId={id} />;
+  // return <ProductDetail item={data} paramId={id} />;
+  return (
+    <>
+      <div>상품 상세페이지입니다.</div>
+    </>
+  );
 };
 
 export default ProductDetailPage;

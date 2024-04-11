@@ -49,7 +49,7 @@ const SellList = () => {
                       </th>
                     </tr>
                   </thead>
-                  <List />
+                  {/* <List /> */}
                 </table>
               </div>
             </div>
