@@ -1,8 +1,9 @@
-import EditForm from "@/components/seller/EditForm";
-import React from "react";
+// import EditForm from "@/components/seller/EditForm";
+import EditProductForm from "@/components/seller/edit/EditProducForm";
 
 const ProductEdit = () => {
-  return <EditForm />;
+  // return <EditForm />;
+  return <EditProductForm />;
 };
 
 export default ProductEdit;
