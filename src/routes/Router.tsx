@@ -5,7 +5,7 @@ import SignupPage from "@/pages/users/signup";
 import ProductNew from "@/pages/seller/new";
 import MyPage from "@/pages/users/profile";
 import { Routes, Route, Navigate } from "react-router-dom";
-import { useContext } from "react";
+import { Suspense, useContext, useState } from "react";
 import AuthContext from "@/context/AuthContext";
 import ProductEdit from "@/pages/seller/edit";
 import ProductDetail from "@/pages/shop/[id]";
@@ -17,6 +17,8 @@ import { createBrowserRouter } from "react-router-dom";
 import App from "@/App";
 import PrivateRoute from "./PrivateRoute";
 import SellerRoute from "./SellerRoute";
+import MypageLayout from "@/layout/MypageLayout";
+import OrderPage from "@/pages/shop/order";
 
 interface userType {
   email: string;
@@ -30,8 +32,12 @@ interface RouterProps {
 }
 
 const Router = () => {
-  // console.log("라우터 유저", user);
-  const { user } = useContext(AuthContext);
+  const { user, loading } = useContext(AuthContext);
+  console.log("유저 정보", user?.isSeller);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <Routes>
@@ -47,12 +53,15 @@ const Router = () => {
       </Route>
 
       {/* 로그인이 필요한 경우 */}
-
-      <Route element={<PrivateRoute condition={user ? true : false} />}>
-        <Route path="/users/mypage" element={<MyPage />} />
-        <Route path="/cart" />
-        <Route path="/order" element={<OrderListPage />} />
-        <Route path="/users/myorder" />
+      <Route element={<MainLayout />}>
+        <Route element={<PrivateRoute condition={user ? true : false} />}>
+          <Route path="/cart" />
+          <Route path="/order" element={<OrderListPage />} />
+          <Route element={<MypageLayout />}>
+            <Route path="/users/myorder" element={<OrderPage />} />
+            <Route path="/users/profile" element={<MyPage />} />
+          </Route>
+        </Route>
         {/* 판매자 접근 */}
         {user && (
           <Route element={<SellerRoute seller={user.isSeller} />}>
@@ -62,45 +71,10 @@ const Router = () => {
           </Route>
         )}
       </Route>
+      {/* 이외의 경로 처리 */}
+      <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );
 };
-
-// <Routes>
-//   <Route path="/users/login" element={<LoginPage />} />
-//   {isAuthenticated ? (
-//     <>
-//       <Route element={<MainLayout />}>
-//         {/* 판매자 */}
-//         {user?.isSeller ? (
-//           <>
-//             {" "}
-//             <Route path="/seller/list" element={<SellList />} />
-//             <Route path="/seller/new" element={<ProductNew />} />
-//           </>
-//         ) : (
-//           <> </>
-//         )}
-//         {/* 로그인된 모든 회원 */}
-
-//         <Route path="/" element={<HomePage />} />
-//         <Route path="/users/profile" element={<MyPage />} />
-//         <Route path="/seller/edit/:id" element={<ProductEdit />} />
-//       </Route>
-//     </>
-//   ) : (
-//     <>
-//       <Route element={<MainLayout />}>
-//         <Route path="/shop" element={<ProductList />} />
-//         <Route path="/shop/:id" element={<ProductDetail />} />
-//       </Route>
-
-//       <Route path="/users/signup" element={<SignupPage />} />
-//       <Route path="*" element={<Navigate replace to="/" />} />
-//     </>
-//   )}
-// </Routes>
-// );
-// };
 
 export default Router;
